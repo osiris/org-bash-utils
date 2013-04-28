@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2011 Osiris Alejandro Gomez <osiux@osiux.com.ar>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+if [ -z $1 ]
+then
+    DATE=$(date +%Y-%m-%d)
+else
+    DATE=$1
+fi
+
+if [ -z $2 ]
+then
+    FILES='*.org'
+else
+    FILES=$2
+fi
+
+cd ~/org
+
+for FILE in $(ls $FILES)
+do
+    egrep "CLOCK: \[$DATE" $FILE | tr "[]" " " | awk 'BEGIN {total=0} function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total=minutos($10)} {print $2,$4,total"\n"}' | sort | grep "$DATE"
+done
+

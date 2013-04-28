@@ -1,0 +1,9 @@
+alias cdo='cd ~/org'
+
+alias ayer='org-hs-day $(date --date="yesterday" +%Y-%m-%d)'
+alias hoy='org-hs-day $(date +%Y-%m-%d)'
+alias mes='org-hs-month $(date +%Y-%m)'
+
+alias almuerzo='D=$(dia);egrep "CLOCK: \[$D" ~/org/almuerzo.org | tr '\''[]'\'' '\'' '\'' | awk '\''{print $4" - "$8}'\'''
+alias gca='D=$(dia);egrep "CLOCK: \[$D" ~/org/gca.org | tr '\''[]'\'' '\'' '\'' | awk '\''{print $4" - "$8}'\'''
+
