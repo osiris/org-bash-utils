@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2011 Osiris Alejandro Gomez <osiux@osiux.com.ar>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+cd ~/org
+
+if [ -z $1 ]
+then
+  FILE='*.org'
+else
+  if [ -e $1 ]
+  then
+    FILE=$1
+  else
+    if [ -e $1.org ]
+    then
+      FILE=$1.org
+    else
+      echo FILE NOT EXISTS $1
+      exit 1
+    fi
+  fi
+fi
+
+for i in $(echo $FILE)
+do
+    egrep "^\*(.*)TODO " $i | sed -e s/[a-z:@]*:$//g | sed s/[*]*\ TODO\ //g | sort | while read j
+    do
+        echo '  - [ ] '"$j" | par p8h
+    done | sort >/tmp/$i
+    
+    l=$(wc -l /tmp/$i | awk '{print $1}')
+
+    if [ $l -ne 0 ]
+    then
+        echo "* $i [0/$l]" 
+        cat /tmp/$i
+    fi
+done
+

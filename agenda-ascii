@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2014 Osiris Alejandro Gomez <osiux@osiux.com.ar>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+EMACS=/usr/bin/emacs23
+REMIND=/usr/bin/remind
+ICAL2REM=/home/osiris/bin/ical2rem
+DIR=/home/osiris/org
+ROWS=5
+COLS=130
+EXPORT_ICS=FALSE
+GREP=/bin/grep
+DATE=/bin/date
+YEAR=$($DATE +'%Y')
+
+while getopts "r:c:f:i" OPCION
+    do
+        case $OPCION in
+            r)
+                ROWS=$OPTARG
+                ;;
+            c)
+                COLS=$OPTARG
+                ;;
+            f)
+                FILE=$OPTARG
+                ;;
+            i)
+                EXPORT_ICS=TRUE
+                ;;
+            ?)
+                exit
+                ;;
+        esac
+    done
+
+cd $DIR
+
+if [ "$EXPORT_ICS" = "TRUE" ]
+then
+    ORG_FILES=$($GREP -l "<$YEAR" *.org)
+    for AGENDA in $(echo $ORG_FILES)
+    do
+        echo EXPORT $AGENDA ...
+        ARCHIVO=$DIR/$AGENDA
+        $EMACS --batch -q --directory=${DIR} --visit=${ARCHIVO} --eval '(org-export-icalendar-this-file)' >/dev/null 2&>1
+    done
+fi
+
+if [ -z $FILE ]
+then
+    FILE=agenda
+    rm agenda.ics
+    echo COMBINE ICS ...
+    ICS_FILES=$(echo $ORG_FILES | sed s/org/ics/g)
+    cat $ICS_FILES | sed s/"TODO "//g | sed s/"NEXT "//g | \
+    sed s/"DONE "//g >agenda.ics
+fi
+
+ICS=$FILE.ics
+
+if [ -e $ICS ]
+then
+    echo CONVERT ICS TO REM ...
+    cat $ICS | $ICAL2REM >$FILE.rem
+fi
+
+REM=$FILE.rem
+
+if [ -e $REM ]
+then
+    $REMIND -y -b1 -n -c+$ROWS -w$COLS $REM | tee ~/org/agenda.txt
+else
+    echo 'ERROR: file '$REM' not found'
+fi
+
