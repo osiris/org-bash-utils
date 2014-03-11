@@ -1,4 +1,11 @@
-#+TITLE: Org Bash Utils
+#+TITLE:     Org Bash Utils
+#+AUTHOR:    Osiris Alejandro Gómez
+#+EMAIL:     osiux@osiux.com
+#+LANGUAGE:  en
+
+
+
+
 
 ** README
 
@@ -22,6 +29,20 @@
 
      - Like =org-clock= but show complete year
 
+**** add examples [2/2]
+***** DONE =org-timeline= full year
+      CLOSED: [2014-03-11 mar 12:57]
+      :LOGBOOK:
+      - State "DONE"       from "NEXT"       [2014-03-11 mar 12:57]
+      :END:
+
+***** DONEq =org-status=
+      CLOSED: [2014-03-11 mar 13:01]
+      :LOGBOOK:
+      - State "DONE"       from "NEXT"       [2014-03-11 mar 13:01]
+      CLOCK: [2014-03-11 mar 12:45]--[2014-03-11 mar 12:57] =>  0:12
+      :END:
+
 *** TODO Release 0.2
 
 ** Bugs [0/1]
@@ -29,3 +50,4 @@
 ** Features [0/2]
 *** NEXT don't show empty hours columns
 *** NEXT add proyect filter to =org-clock= and =org-year=
+*** NEXT verify negative results in =org-timeline=

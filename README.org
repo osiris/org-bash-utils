@@ -172,6 +172,41 @@
           4 osiux
     #+end_example
 
+*** =org-status=
+
+    Show status of =TODO KEYWORDS= for =*.org= files:
+ 
+    #+BEGIN_SRC sh :session :results output :exports both
+      org-status | head | barra
+    #+END_SRC
+
+    #+RESULTS:
+    #+begin_example
+     81.94 %  81.94 %      3245 █████████████████████████████████████████ DONE 
+     91.72 %   9.77 %       387 █████ NEXT 
+     95.05 %   3.33 %       132 █ CANCELLED 
+     98.06 %   3.01 %       119 █ TODO 
+     99.19 %   1.14 %        45 ▌ FIXED 
+     99.39 %   0.20 %         8 ▌ SOMEDAY 
+     99.60 %   0.20 %         8 ▌ DELEGATED 
+     99.75 %   0.15 %         6 ▌ TODAY 
+     99.87 %   0.13 %         5 ▌ WAITING 
+    100.00 %   0.13 %         5 ▌ POSTPONED 
+                           3960
+    #+end_example
+
+    Show status of =TODO KEYWORDS= for =obu.org= file:
+ 
+    #+BEGIN_SRC sh :session :results output :exports both
+      org-status obu.org | barra
+    #+END_SRC
+
+    #+RESULTS:
+    :  55.56 %  55.56 %         5 ████████████████████████████ NEXT 
+    :  88.89 %  33.33 %         3 ████████████████ DONE 
+    : 100.00 %  11.11 %         1 █████ TODO 
+    :                           9
+
 *** =org-timeline=
 
     Draw a timeline for a serie of start and end date, group by third column:
