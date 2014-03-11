@@ -32,7 +32,8 @@ fi
 
 cd ~/org
 
-for FILE in $(ls $FILES)
+shopt -s nullglob
+for FILE in "$FILES"
 do
     HHMM=$(egrep "CLOCK: \[$DATE(.*)=>  " $FILE | awk -F\=\> 'function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total+=minutos($2)} END {printf "%02d:%02d %-4d",total/(60),total%60,total}')
     echo -n $HHMM$'\t'$FILE$'\n'
@@ -40,7 +41,7 @@ done | sort -r | grep -v "00:00 0"
 
 if [ "$FILES" == "*.org" ]
 then
-    HHMM=$(cat $(ls *.org) | egrep "CLOCK: \[$DATE(.*)=>  " | awk -F\=\> 'function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total+=minutos($2)} END {printf "%02d:%02d",total/(60),total%60}' | tr -d " ")
+    HHMM=$(cat *.org) | egrep "CLOCK: \[$DATE(.*)=>  " | awk -F\=\> 'function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total+=minutos($2)} END {printf "%02d:%02d",total/(60),total%60}' | tr -d " ")
     echo -n $HHMM$'\ttotal\n'
 fi
 
