@@ -78,6 +78,7 @@
    set mytics
    unset mxtics
    #set autoscale x
-   f=`ls ~/org/*.org | wc -l`
+   files=(~/org/*.org)
+   f="${#files[@]}"
    plot for [i=2:f:2] data u 1:i:(0):(column(i+1)*60) with vec lw 20 nohead ti col(i)
 
