@@ -1,0 +1,19 @@
+#+TITLE: Org Bash Utils
+
+** README
+
+   #+INCLUDE: "~/org-bash-utils/README.org" :lines "10-"
+   
+** Releases
+*** Release 0.1
+**** DONE publish actual version of scripts
+     CLOSED: [2014-03-11 mar 10:56] SCHEDULED: <2014-03-11 mar>
+     :LOGBOOK:
+     - State "DONE"       from "NEXT"       [2014-03-11 mar 10:56]
+     CLOCK: [2014-03-11 mar 10:30]--[2014-03-11 mar 10:55] =>  0:25
+     :END:
+
+*** TODO Release 0.2
+
+** Bugs [0/1]
+*** NEXT =BAR= is empty when second timestamp is greater than first timestamp

@@ -1,0 +1,278 @@
+#!/usr/bin/awk -f
+#
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2014 Osiris Alejandro Gomez <osiux@osiux.com.ar>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# EXAMPLE RESULT:
+#
+# 08:    09:    10:    11:    12:
+#   ┊      ┊      ┊      ┊      ┊
+#   ┊▣▣▣□□□┊□□□□□□┊□□□□□□┊□□□□□□┊
+#   ┊□□□□□□┊▣▣▣▣▨□┊□□□□□□┊□□□□□□┊
+#   ┊□□□□□□┊□□□□□□┊□□□□▣▣┊▣▣▣▣▣▣┊
+#                                     
+
+function inicio(x) {
+  split(x,Arr,",");
+  return Arr[1]
+}
+function fin(x) {
+  split(x,Arr,",");
+  return Arr[2]
+}
+function hora(t) {
+  split(t,Arr,":");
+  return Arr[1]
+}
+function minutos(t) {
+  split(t,Arr,":");
+  return Arr[2]
+}
+BEGIN {
+
+  if (length(c) == 0)
+  {
+    s=1;
+  }
+  if (length(c) == 0)
+  {
+    e=2;
+  }
+  if (length(c) == 0)
+  {
+    c=3;
+  }
+
+  B[0,  0]="000000";
+  B[0,  5]="100000";
+  B[0, 10]="200000";
+  B[0, 15]="210000";
+  B[0, 20]="220000";
+  B[0, 25]="221000";
+  B[0, 30]="222000";
+  B[0, 35]="222100";
+  B[0, 40]="222200";
+  B[0, 45]="222210";
+  B[0, 50]="222220";
+  B[0, 55]="222221";
+  B[0, 60]="222222";
+
+  B[5, 10]="100000";
+  B[5, 15]="110000";
+  B[5, 20]="120000";
+  B[5, 25]="121000";
+  B[5, 30]="122000";
+  B[5, 35]="122100";
+  B[5, 40]="122200";
+  B[5, 45]="122210";
+  B[5, 50]="122220";
+  B[5, 55]="122221";
+  B[5, 60]="122222";
+
+  B[10,15]="010000";
+  B[10,20]="022000";
+  B[10,25]="021000";
+  B[10,30]="022000";
+  B[10,35]="022100";
+  B[10,40]="022200";
+  B[10,45]="022210";
+  B[10,50]="022220";
+  B[10,55]="022221";
+  B[10,60]="022222";
+
+  B[15,15]="010000";
+  B[15,20]="020000";
+  B[15,25]="021000";
+  B[15,30]="012000";
+  B[15,35]="012100";
+  B[15,40]="012200";
+  B[15,45]="012210";
+  B[15,50]="012220";
+  B[15,55]="012221";
+  B[15,60]="012222";
+
+  B[20,20]="020000";
+  B[20,25]="021000";
+  B[20,30]="022000";
+  B[20,35]="022100";
+  B[20,40]="022200";
+  B[20,45]="022210";
+  B[20,50]="022220";
+  B[20,55]="022221";
+  B[20,60]="022222";
+
+  B[25,25]="001000";
+  B[25,30]="001000";
+  B[25,35]="001100";
+  B[25,40]="001200";
+  B[25,45]="001210";
+  B[25,50]="001220";
+  B[25,55]="001221";
+  B[25,60]="001222";
+
+  B[30,30]="002000";
+  B[30,35]="002100";
+  B[30,40]="002200";
+  B[30,45]="002210";
+  B[30,50]="002220";
+  B[30,55]="002221";
+  B[30,60]="002222";
+
+  B[35,35]="000100";
+  B[35,40]="000120";
+  B[35,45]="000110";
+  B[35,50]="000220";
+  B[35,55]="000221";
+  B[35,60]="000222";
+
+  B[40,40]="000200";
+  B[40,45]="000210";
+  B[40,50]="000220";
+  B[40,55]="000221";
+  B[40,60]="000222";
+
+  B[45,45]="000010";
+  B[45,50]="000020";
+  B[45,55]="000011";
+  B[45,60]="000012";
+
+  B[50,50]="000020";
+  B[50,55]="000021";
+  B[50,60]="000022";
+
+  B[55,55]="000001";
+  B[55,60]="000001";
+
+  B[60,60]="000002";
+
+  MIN=0;
+  MAX=0;
+  TOTAL=0;
+}
+
+NR == 1 {
+  MAX=hora($e);
+  MIN=hora($s);
+}
+
+{
+  if (hora($s) < MIN)
+  {
+    MIN=hora($s);
+  }
+
+  if (hora($e) > MAX)
+  {
+    MAX=hora($e);
+  }
+
+  G[$c]++;
+  GG[$c, G[$c]]=$s "," $e;
+}
+
+END {
+
+  for (h=MIN; h<=MAX+1; h++)
+  {
+    printf "%02d:    ", h;
+  }
+  print " ";
+  for (h=MIN; h<=MAX+1; h++)
+  {
+    printf "  ┊    ", h;
+  }
+  print " ";
+
+  for (g in G)
+  {
+    A[g]=000000;
+    T[g]=0;
+
+    for (i = 1; i <= G[g]; i++)
+    {
+        H1=hora(inicio(GG[g, i]));
+        H2=hora(fin(GG[g, i]));
+        M1=minutos(inicio(GG[g, i]));
+        M2=minutos(fin(GG[g, i]));
+        R1=int(M1/5+0.5)*5;
+        R2=int(M2/5+0.5)*5;
+        T1=H1*60+M1;
+        T2=H2*60+M2;
+        TD=T2-T1;
+
+        if (H1 == H2)
+        {
+          BARRA=B[R1, R2];
+        }
+        else if (H1 < H2)
+        {
+          BARRA=B[R1, 60];
+        }
+
+        A[g, H1]+=BARRA;
+        T[g]+=TD;
+        TOTAL+=TD;
+
+        BAR=sprintf("%06d", BARRA);
+        N = gsub("0", "□", BAR);
+        N = gsub("1", "▨", BAR);
+        N = gsub("2", "▣", BAR);
+
+        if (d == 2)
+        {
+          printf "  ";
+          for (h=MIN; h<MAX+1; h++)
+          {
+            if (h != H1)
+            {
+              BB="□□□□□□";
+            }
+            else
+            {
+              BB=BAR;
+            }
+            printf "┊%s", BB;
+          }
+          printf "┊ %10s %s:%s - %s:%s => %4s\n", g, H1, M1, H2, M2, TD;
+        }
+    }
+
+    printf "  ";
+    for (h=MIN; h<MAX+1; h++)
+    {
+      if (0+length(A[g, h])==0)
+      {
+        BAR="□□□□□□";
+      }
+      else
+      {
+        BAR=sprintf("%06d", A[g, h]);
+        N = gsub("0", "□", BAR);
+        N = gsub("1", "▨", BAR);
+        N = gsub("[2-9]", "▣", BAR);
+      }
+      printf "┊%s", BAR;
+    }
+    printf "┊ %10s ===============> %4s\n", g, T[g];
+  }
+
+  for (h=MIN; h<=MAX+1; h++)
+  {
+    printf "  ┊    ", h;
+  }
+  printf "%7s ===============> %4s\n", "TOTAL", TOTAL;
+}

@@ -1,9 +1,64 @@
-alias cdo='cd ~/org'
+alias h=head
+alias t=tail
+alias h5='head -5'
+alias h20='head -20'
+alias h50='head -50'
+alias h100='head -100'
 
-alias ayer='org-hs-day $(date --date="yesterday" +%Y-%m-%d)'
-alias hoy='org-hs-day $(date +%Y-%m-%d)'
+alias cdo='cd ~/org'
+alias cdu='cd ~/org-bash-utils'
+
+alias 1d='echo $(date --date="yesterday" +%Y-%m-%d)'
+alias 2d='echo $(date --date="-1 day" +%Y-%m-%d)'
+alias 3d='echo $(date --date="-2 day" +%Y-%m-%d)'
+alias 4d='echo $(date --date="-2 day" +%Y-%m-%d)'
+alias 5d='echo $(date --date="-2 day" +%Y-%m-%d)'
+alias 6d='echo $(date --date="-2 day" +%Y-%m-%d)'
+
+alias ayer='echo $(date --date="yesterday" +%Y-%m-%d)'
+
+alias org-1d='org-hs-day 1d'
+
+alias hoy='echo $(date +%Y-%m-%d)'
 alias mes='org-hs-month $(date +%Y-%m)'
 
 alias almuerzo='D=$(dia);egrep "CLOCK: \[$D" ~/org/almuerzo.org | tr '\''[]'\'' '\'' '\'' | awk '\''{print $4" - "$8}'\'''
 alias gca='D=$(dia);egrep "CLOCK: \[$D" ~/org/gca.org | tr '\''[]'\'' '\'' '\'' | awk '\''{print $4" - "$8}'\'''
 
+alias next-chart='cdo;egrep "^\*(.*)NEXT " *.org | sed s/".org"//g | cut -d: -f1 | bar_chart'
+alias todo-chart='cdo;egrep "^\*(.*)TODO " *.org | sed s/".org"//g | cut -d: -f1 | bar_chart'
+alias someday-chart='cdo;egrep "^\*(.*)SOMEDAY " *.org | sed s/".org"// | cut -d: -f1 | bar_chart'
+# org-mode
+#alias hoy='org-hs-day $(date +%Y-%m-%d)'
+alias hayer='org-hs-day $(ayer)'
+alias layer="egrep \"CLOCK: \[2013-08-27\" *.org | tr '[]' ' ' | awk '{print \$5\" - \"\$9\" = \"\$11,\$1}' | sed s/\":\$\"//g | sort -k2'"
+alias mes='org-hs-month $(date +%Y-%m)'
+alias almuerzo="D=\$(dia);egrep \"CLOCK: \[\$D\" ~/org/almuerzo.org | tr '[]' ' ' | awk '{print \$4\" - \"\$8}'"
+alias gca="D=\$(dia);egrep \"CLOCK: \[\$D\" ~/org/gca.org | tr '[]' ' ' | awk '{print \$4\" - \"\$8}'"
+alias gastos="D=\$(dia);egrep \"CLOCK: \[\$D\" ~/org/gastos.org | tr '[]' ' ' | awk '{print \$4\" - \"\$8}'"
+alias org="D=\$(dia);egrep \"CLOCK: \[\$D\" ~/org/org.org | tr '[]' ' ' | awk '{print \$4\" - \"\$8}'"
+alias scrum2012-07-30='exec qiv ~/org/gca-scrum-2012-07-30.png &'
+alias wiki?='grep wiki ~/org/gpg.org | cut -d\| -f4'
+
+alias rank="sort | uniq -c | sort -nr"
+alias top5="rank  | h5"
+alias top10="rank | h10"
+alias top20="rank | h20"
+alias top50="rank | h50"
+alias top100="rank | h100"
+
+alias g=egrep
+
+alias s='sort'
+alias s2="s -k2nr"
+alias s3="s -k3nr"
+
+alias awk4="awk '{print \$4}'"
+
+alias hh='history | egrep $(dia)  | cut -c 19- | sort -u'
+alias hhrh="history | cut -d: -f1 | awk23 | sort | uniq -c | awk '{print \$2,\$3,\$1}'"
+alias hhbc="history | awk4 | bar_chart"
+alias hhrd="history | g $(hoy) | awk4 | rank | barra | s3"
+alias hhrm="history | g $(date +%Y-%m) | awk4 | bar_chart"
+alias hhry="history | g $(date +%Y) | awk4 | bar_chart"
+alias hhrt="history | awk4 | bar_chart"
