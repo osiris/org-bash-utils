@@ -174,6 +174,8 @@
 
 *** =org-timeline=
 
+    Draw a timeline for a serie of start and end date, group by third column:
+
     #+BEGIN_SRC sh :session :results output :exports both
       org-clock 2014-02-28 | org-timeline
     #+END_SRC
@@ -186,6 +188,7 @@
     :   ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      TOTAL ===============>  432
 
 
+    View detail of each line before group with =-d=2= parameter:
 
     #+BEGIN_SRC sh :session :results output :exports both
       org-clock 2014-02-28 | org-timeline -v d=2
@@ -207,13 +210,3 @@
       ┊□□▨▣▣▣┊□□□▣▣▣┊□□□□□□┊□□□□□□┊□▣▣▣▣▣┊□□□□□□┊□□□□□□┊□□□□□□┊□□▣▣▨□┊□▣▣▣□□┊        gca ===============>  401
       ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      TOTAL ===============>  432
     #+end_example
-
-
-    #+BEGIN_SRC sh :session :results output :exports both
-      org-clock gca
-    #+END_SRC
-
-    #+RESULTS:
-
-   
-   

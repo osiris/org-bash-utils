@@ -5,7 +5,7 @@
    #+INCLUDE: "~/org-bash-utils/README.org" :lines "10-"
    
 ** Releases
-*** Release 0.1
+*** Release 0.1 [2/2]
 **** DONE publish actual version of scripts
      CLOSED: [2014-03-11 mar 10:56] SCHEDULED: <2014-03-11 mar>
      :LOGBOOK:
@@ -13,7 +13,19 @@
      CLOCK: [2014-03-11 mar 10:30]--[2014-03-11 mar 10:55] =>  0:25
      :END:
 
+**** DONE add =org-year=
+     CLOSED: [2014-03-11 mar 12:46]
+     :LOGBOOK:
+     - State "DONE"       from "NEXT"       [2014-03-11 mar 12:46]
+     CLOCK: [2014-03-11 mar 12:10]--[2014-03-11 mar 12:45] =>  0:35
+     :END:
+
+     - Like =org-clock= but show complete year
+
 *** TODO Release 0.2
 
 ** Bugs [0/1]
 *** NEXT =BAR= is empty when second timestamp is greater than first timestamp
+** Features [0/2]
+*** NEXT don't show empty hours columns
+*** NEXT add proyect filter to =org-clock= and =org-year=
