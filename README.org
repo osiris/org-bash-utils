@@ -4,14 +4,32 @@
 #+LANGUAGE:  es
 #+LINK_HOME: index.html
 #+LINK:      ISSUE https://github.com/osiris/org-bash-utils/issues/
-
+#+INCLUDE: "obu.org"
 
 
 ** overview
 
    Repository of bash scripts for parse org-mode files.
 
-#+INCLUDE: "obu.org" :lines "10-"
+** install
+
+   Clone the repository:
+
+   #+BEGIN_SRC sh :session :results none :exports code
+     cd ~
+     git clone https://github.com/osiris/org-bash-utils
+   #+END_SRC
+
+   Add to =~/.bashrc=:
+
+   #+BEGIN_SRC sh :session :results none :exports code
+     if [ -d "$HOME/org-bash-utils" ]
+     then
+         PATH="$HOME/org-bash-utils:$PATH"
+         source $HOME/org-bash-utils/org-alias
+         source $HOME/org-bash-utils/awk-alias
+     fi
+   #+END_SRC
 
 ** scripts
 *** =agenda-ascii=
