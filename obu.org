@@ -2,15 +2,11 @@
 #+AUTHOR:    Osiris Alejandro Gómez
 #+EMAIL:     osiux@osiux.com
 #+LANGUAGE:  en
+#+LINK:      ISSUE https://github.com/osiris/org-bash-utils/issues/
 
 
 
 
-
-** README
-
-   #+INCLUDE: "~/org-bash-utils/README.org" :lines "10-"
-   
 ** Releases
 *** Release 0.1 [2/2]
 **** DONE publish actual version of scripts
@@ -45,9 +41,11 @@
 
 *** TODO Release 0.2
 
-** Bugs [0/1]
+** Bugs [0/2]
 *** NEXT =BAR= is empty when second timestamp is greater than first timestamp
-** Features [0/2]
+*** NEXT [[ISSUE:1]] Work in the current directory
+
+** Features [0/3]
 *** NEXT don't show empty hours columns
 *** NEXT add proyect filter to =org-clock= and =org-year=
 *** NEXT verify negative results in =org-timeline=

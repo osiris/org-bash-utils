@@ -3,13 +3,15 @@
 #+EMAIL:     osiux@osiux.com
 #+LANGUAGE:  es
 #+LINK_HOME: index.html
-#+INCLUDE: "header.org"
+#+LINK:      ISSUE https://github.com/osiris/org-bash-utils/issues/
 
 
 
 ** overview
 
    Repository of bash scripts for parse org-mode files.
+
+#+INCLUDE: "obu.org" :lines "10-"
 
 ** scripts
 *** =agenda-ascii=
@@ -245,3 +247,5 @@
       ┊□□▨▣▣▣┊□□□▣▣▣┊□□□□□□┊□□□□□□┊□▣▣▣▣▣┊□□□□□□┊□□□□□□┊□□□□□□┊□□▣▣▨□┊□▣▣▣□□┊        gca ===============>  401
       ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      TOTAL ===============>  432
     #+end_example
+
+
