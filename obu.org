@@ -58,12 +58,23 @@
 
     - [X] add a *setup* section in =README.org=
 
-** Features [0/3]
+** Features [1/4]
 *** NEXT don't show empty hours columns
 *** NEXT add proyect filter to =org-clock= and =org-year=
 *** NEXT verify negative results in =org-timeline=
-*** NEXT add second parameter for grep filename =org-clock=
+*** DONE add second parameter for grep filename =org-clock=
+    CLOSED: [2014-03-18 mar 08:55]
     :LOGBOOK:
+    - State "DONE"       from "NEXT"       [2014-03-18 mar 08:55]
     CLOCK: [2014-03-18 mar 08:46]--[2014-03-18 mar 08:54] =>  0:08
+    :END:
+
+
+** README
+*** DONE add example of =org-clock= for second parameter
+    CLOSED: [2014-03-18 mar 09:06]
+    :LOGBOOK:
+    - State "DONE"       from ""           [2014-03-18 mar 09:06]
+    CLOCK: [2014-03-18 mar 09:00]--[2014-03-18 mar 09:06] =>  0:06
     :END:
 
