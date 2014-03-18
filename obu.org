@@ -62,3 +62,8 @@
 *** NEXT don't show empty hours columns
 *** NEXT add proyect filter to =org-clock= and =org-year=
 *** NEXT verify negative results in =org-timeline=
+*** NEXT add second parameter for grep filename =org-clock=
+    :LOGBOOK:
+    CLOCK: [2014-03-18 mar 08:46]--[2014-03-18 mar 08:54] =>  0:08
+    :END:
+
