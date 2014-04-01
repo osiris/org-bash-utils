@@ -16,39 +16,75 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-cd ~/org
+usage()
+{
+cat << EOF
+Use: next [options]
 
-if [ -z $1 ]
-then
-  FILE='*.org'
-else
-  if [ -e $1 ]
-  then
-    FILE=$1
-  else
-    if [ -e $1.org ]
-    then
-      FILE=$1.org
-    else
-      echo FILE NOT EXISTS $1
+Options:
+
+    -h show help
+    -d set directory, default current directory
+    -f set file pattern, default *.org
+
+EOF
+}
+
+DIR=$PWD
+FILE='*.org'
+
+while getopts "hd:f:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
       exit 1
-    fi
+      ;;
+    d)
+      DIR=$OPTARG
+      ;;
+    f)
+      FILE=$OPTARG
+      ;;
+  esac
+done
+
+if [ ! -d $DIR ]
+then
+  echo $DIR NOT EXISTS
+  exit 1
+fi
+
+if [ "$FILE" != "*.org" ]
+then
+  if [ ! -e $DIR/$FILE ]
+  then
+    echo $FILE NOT EXISTS
+    exit 1
   fi
 fi
 
+cd $DIR
+
 for i in $(echo $FILE)
 do
-    egrep "^\*(.*)NEXT " $i | sed s/"\[\["//g | sed s/"\]\]"//g | sed -e s/[a-z:@]*:$//g | sed s/[*]*\ NEXT\ //g | while read j
+    egrep -h "^\*(.*)NEXT " $i | \
+    sed s/"\[\["//g | sed s/"\]\]"//g | \
+    sed -e s/[a-z:@]*:$//g | \
+    sed s/[*]*\ NEXT\ //g | \
+    while read j
     do
         echo "  - [ ] "$j
-    done | sort >/tmp/$i
+    done | sort >/tmp/next.$i.tmp
     
-    l=$(wc -l /tmp/$i | awk '{print $1}')
+    l=$(wc -l /tmp/next.$i.tmp | awk '{print $1}')
 
     if [ $l -ne 0 ]
     then
         echo "* $i [0/$l]" 
-        cat /tmp/$i
+        cat /tmp/next.$i.tmp
     fi
 done
+
+rm -f /tmp/next.*.tmp
 

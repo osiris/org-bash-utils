@@ -44,10 +44,23 @@
 ** Bugs [1/3]
 *** NEXT =BAR= is empty when second timestamp is greater than first timestamp
 *** NEXT [[ISSUE:1]] Work in the current directory
+    :LOGBOOK:
+    CLOCK: [2014-03-29 sáb 10:17]--[2014-03-29 sáb 10:59] =>  0:42
+    :END:
 
     - [ ] replace harcode dir =~/org= for =$ORG_DIR= variable
-    - [ ] set default directory current directory using =$PWD= variable
-    - [ ] add =-dir= variable for run in specific directory
+    - [X] set default directory current directory using =$PWD= variable
+    - [-] add =-dir= variable for run in specific directory
+      - [X] next
+      - [X] todo
+      - [X] someday
+      - [ ] done
+      - [ ] org-clock
+      - [ ] org-log
+      - [ ] org-plot
+      - [ ] org-status
+      - [ ] org-year
+      - [ ] org-timeline
 
 *** DONE [[ISSUE:2]] How to use your commands from anywhere?
     CLOSED: [2014-03-12 mié 15:08]

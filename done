@@ -68,10 +68,10 @@ cd $DIR
 
 for i in $(echo $FILE)
 do
-    egrep -h "^\*(.*)TODO " $i | \
+    egrep -h "^\*(.*)DONE " $i | \
     sed s/"\[\["//g | sed s/"\]\]"//g | \
     sed -e s/[a-z:@]*:$//g | \
-    sed s/[*]*\ TODO\ //g | \
+    sed s/[*]*\ DONE\ //g | \
     while read j
     do
         echo "  - [ ] "$j
