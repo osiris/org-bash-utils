@@ -29,9 +29,9 @@ cd $ORG
 
 if [ -z $2 ]
 then
-  $EGREP "CLOCK: \[$DAY.*[0-9]+$" *.org | $TR "[]" " " | $AWK '{print $5,$9,$1}' | $SED s/".org:"//g | $SORT -k3
+  $EGREP "CLOCK: \[$DAY.*[0-9]+$" *.org | $TR "[]" " " | $AWK '{print $5,$9,$1}' | $SED s/".org:"//g | $SORT -k2
 else
-  $EGREP "CLOCK: \[$DAY.*[0-9]+$" $2 | $TR "[]" " " | $AWK '{print $4,$8,$2}' | $SED s/".org:"//g | $SORT -k3
+  $EGREP "CLOCK: \[$DAY.*[0-9]+$" $2 | $TR "[]" " " | $AWK '{print $4,$8,$2}' | $SED s/".org:"//g | $SORT -k2
 fi
 
 
