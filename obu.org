@@ -102,3 +102,11 @@
     CLOCK: [2014-03-18 mar 09:00]--[2014-03-18 mar 09:06] =>  0:06
     :END:
 
+*** DONE add example of =barra= for =bash history= statistics
+    CLOSED: [2014-04-15 mar 09:42]
+    :LOGBOOK:
+    - State "DONE"       from "NEXT"       [2014-04-15 mar 09:42]
+    CLOCK: [2014-04-15 mar 09:01]--[2014-04-15 mar 09:42] =>  0:41
+    :END:
+
+    - [X] =bash -i= not working anymore, report the bug
