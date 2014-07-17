@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2014 Osiris Alejandro Gomez <osiux@osiux.com.ar>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+usage()
+{
+cat << EOF
+Use: org-scheduled [options]
+
+Options:
+
+    -h show help
+    -d set directory, default current directory
+    -f set file pattern, default *.org
+
+EOF
+}
+
+DIR=$PWD
+FILE='*.org'
+YEAR=$(date +%Y)
+MONTH=$(date +%m)
+
+while getopts "hd:f:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    d)
+      DIR=$OPTARG
+      ;;
+    f)
+      FILE=$OPTARG
+      ;;
+    y)
+      YEAR=$OPTARG
+      ;;
+    m)
+      MONTH=$OPTARG
+      ;;
+  esac
+done
+
+if [ ! -d $DIR ]
+then
+  echo $DIR NOT EXISTS
+  exit 1
+fi
+
+if [ "$FILE" != "*.org" ]
+then
+  if [ ! -e $DIR/$FILE ]
+  then
+    echo $FILE NOT EXISTS
+    exit 1
+  fi
+fi
+
+cd $DIR
+grep -l "<$YEAR-$MONTH" $FILE
+

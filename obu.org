@@ -41,7 +41,7 @@
 
 *** TODO Release 0.2
 
-** Bugs [1/3]
+** Bugs [2/4]
 *** NEXT =BAR= is empty when second timestamp is greater than first timestamp
 *** NEXT [[ISSUE:1]] Work in the current directory
     :LOGBOOK:
@@ -71,7 +71,17 @@
 
     - [X] add a *setup* section in =README.org=
 
-** Features [1/4]
+*** DONE don't export ICS files in =agenda-ascii= without =-i= parameter
+    CLOSED: [2014-07-17 jue 09:48]
+    :LOGBOOK:
+    - State "DONE"       from "NEXT"       [2014-07-17 jue 09:48]
+    CLOCK: [2014-07-17 jue 09:13]--[2014-07-17 jue 09:44] =>  0:31
+    :END:
+
+    - [X] set default value for =$ORG_FILES= variable, setting files
+      with current =$YEAR-$MONTH= scheduled date.
+
+** Features [2/6]
 *** NEXT don't show empty hours columns
 *** NEXT add proyect filter to =org-clock= and =org-year=
 *** NEXT verify negative results in =org-timeline=
@@ -81,7 +91,6 @@
     - State "DONE"       from "NEXT"       [2014-03-18 mar 08:55]
     CLOCK: [2014-03-18 mar 08:46]--[2014-03-18 mar 08:54] =>  0:08
     :END:
-
 
 *** NEXT drafts =org-habits= 
     :LOGBOOK:
@@ -93,6 +102,15 @@
     |  □ |  □ |  □ |  ▣ |  □ |  ▣ |  ▣ |  □ |  □ |  ▣ |  □ |  □ |  ▣ |  ▣ |  □ |  □ |   ▣ |  ▣ |  □ |  □ |  □ |  □ |  □ |  ▣ |  ▣ |  □ |  □ |  ▣ |
     |----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+----+-----+----+----+----+----+----+----+----+----+----+----+----|
     |    |    |    | 38 |    | 40 | 66 |    |    | 48 |    |    | 53 | 60 |    |    | 180 | 84 |    |    |    |    |    | 49 | 60 |    |    | 31 |
+
+*** DONE =org-scheduled=
+    CLOSED: [2014-07-17 jue 09:54]
+    :LOGBOOK:
+    - State "DONE"       from "NEXT"       [2014-07-17 jue 09:54]
+    :END:
+
+    - find files with current =$YEAR-$MONTH= scheduled date like
+      =agenda-ascii=
 
 ** README
 *** DONE add example of =org-clock= for second parameter

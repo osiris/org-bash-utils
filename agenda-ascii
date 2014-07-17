@@ -16,9 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+#
+# apt-get install remind libical-parser-perl
+#
+
 EMACS=/usr/bin/emacs23
 REMIND=/usr/bin/remind
-ICAL2REM=/home/osiris/bin/ical2rem
+ICAL2REM=/home/osiris/org-bash-utils/ical2rem
 DIR=/home/osiris/org
 ROWS=5
 COLS=130
@@ -26,6 +30,7 @@ EXPORT_ICS=FALSE
 GREP=/bin/grep
 DATE=/bin/date
 YEAR=$($DATE +'%Y')
+MONTH=$($DATE +'%m')
 
 while getopts "r:c:f:i" OPCION
     do
@@ -50,9 +55,11 @@ while getopts "r:c:f:i" OPCION
 
 cd $DIR
 
+ORG_FILES=$($GREP -l "<$YEAR-$MONTH" *.org)
+echo $ORG_FILES
+
 if [ "$EXPORT_ICS" = "TRUE" ]
 then
-    ORG_FILES=$($GREP -l "<$YEAR" *.org)
     for AGENDA in $(echo $ORG_FILES)
     do
         echo EXPORT $AGENDA ...

@@ -56,6 +56,7 @@ alias s3="s -k3nr"
 alias awk4="awk '{print \$4}'"
 
 alias hh='history | egrep $(dia)  | cut -c 19- | sort -u'
+alias hhy='history | egrep $(ayer)  | cut -c 19- | sort -u'
 alias hhrh="history | cut -d: -f1 | awk23 | sort | uniq -c | awk '{print \$2,\$3,\$1}'"
 alias hhbc="history | awk4 | bar_chart"
 alias hhrd="history | g $(hoy) | awk4 | rank | barra | s3"
