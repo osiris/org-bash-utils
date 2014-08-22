@@ -20,7 +20,7 @@
 # apt-get install remind libical-parser-perl
 #
 
-EMACS=/usr/bin/emacs23
+EMACS=/usr/bin/emacs
 REMIND=/usr/bin/remind
 ICAL2REM=/home/osiris/org-bash-utils/ical2rem
 DIR=/home/osiris/org
