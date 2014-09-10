@@ -35,6 +35,7 @@ NR == 1 {
 }
   
 END {
-  printf "Min: %f\tMax: %f\tAverage: %f\tTotal: %d\n", min, max, sum/NR, NR
+  printf "Min: %f\tMax: %f\tAvg: %f\tSum: %f\tTotal: %d\n",
+         min, max, sum/NR, sum, NR
 }
 
