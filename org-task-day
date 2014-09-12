@@ -32,7 +32,7 @@ fi
 
 cd ~/org
 
-for FILE in $(ls $FILES)
+for FILE in $FILES
 do
     egrep "CLOCK: \[$DATE" $FILE | tr "[]" " " | awk 'BEGIN {total=0} function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total=minutos($10)} {print $2,$4,total"\n"}' | sort | grep "$DATE"
 done
