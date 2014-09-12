@@ -41,7 +41,7 @@ done | sort -r | grep -v "00:00 0"
 
 if [ "$FILES" == "*.org" ]
 then
-    HHMM=$(cat *.org) | egrep "CLOCK: \[$DATE(.*)=>  " | awk -F\=\> 'function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total+=minutos($2)} END {printf "%02d:%02d",total/(60),total%60}' | tr -d " ")
+    HHMM=$(cat *.org | egrep "CLOCK: \[$DATE(.*)=>  " | awk -F\=\> 'function minutos(t) {split(t,Arr,":");return Arr[1]*60+Arr[2]} {total+=minutos($2)} END {printf "%02d:%02d",total/(60),total%60}' | tr -d " ")
     echo -n $HHMM$'\ttotal\n'
 fi
 

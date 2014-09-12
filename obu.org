@@ -3,7 +3,7 @@
 #+EMAIL:     osiux@osiux.com
 #+LANGUAGE:  en
 #+LINK:      ISSUE https://github.com/osiris/org-bash-utils/issues/
-
+#+LINK:      GIT https://github.com/osiris/org-bash-utils/commit/
 
 
 
@@ -32,7 +32,7 @@
       - State "DONE"       from "NEXT"       [2014-03-11 mar 12:57]
       :END:
 
-***** DONEq =org-status=
+***** DONE =org-status=
       CLOSED: [2014-03-11 mar 13:01]
       :LOGBOOK:
       - State "DONE"       from "NEXT"       [2014-03-11 mar 13:01]
@@ -111,6 +111,14 @@
 
     - find files with current =$YEAR-$MONTH= scheduled date like
       =agenda-ascii=
+
+** Merge [1/1]
+*** DONE [[GIT:29a95f75]] Merge pull request #4 from sente/master
+    CLOSED: [2014-09-12 vie 17:56]
+    :LOGBOOK:
+    - State "DONE"       from ""           [2014-09-12 vie 17:56]
+    CLOCK: [2014-09-12 vie 15:25]--[2014-09-12 vie 15:29] =>  0:04
+    :END:
 
 ** README
 *** DONE add example of =org-clock= for second parameter
