@@ -41,7 +41,7 @@
 
 *** TODO Release 0.2
 
-** Bugs [2/4]
+** Bugs [2/2]
 *** NEXT =BAR= is empty when second timestamp is greater than first timestamp
 *** NEXT [[ISSUE:1]] Work in the current directory
     :LOGBOOK:
@@ -81,7 +81,25 @@
     - [X] set default value for =$ORG_FILES= variable, setting files
       with current =$YEAR-$MONTH= scheduled date.
 
-** Features [2/6]
+*** NEXT repair =org-plot= [4/10] [40%]
+    :LOGBOOK:
+    CLOCK: [2014-09-12 vie 15:29]--[2014-09-12 vie 17:59] =>  2:30
+    CLOCK: [2014-09-15 lun 19:16]--[2014-09-15 lun 21:25] =>  2:09
+    CLOCK: [2014-09-16 mar 01:00]--[2014-09-16 mar 02:21] =>  1:24
+    :END:
+
+    * [X] set dynamic xrange
+    * [X] fix TABs separator column
+    * [X] add basic parameters
+    * [X] generate DAT/PLT/PNG files
+    * [ ] set options by graph type (year|month|week)
+    * [ ] add parameter date by regexp pattern
+    * [ ] set dynamic yrange
+    * [ ] set same colors for each .org file
+    * [ ] add parameter for graph size
+    * [ ] add examples
+
+** Features [2/2]
 *** NEXT don't show empty hours columns
 *** NEXT add proyect filter to =org-clock= and =org-year=
 *** NEXT verify negative results in =org-timeline=
