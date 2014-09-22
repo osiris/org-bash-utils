@@ -20,13 +20,33 @@ YEAR=$(date +%Y)
 MONTH=$(date +%m)
 DAY=$(date +%d)
 DIR=$PWD
-DAT='org-task-by-day.dat'
-PLT='org-task-by-day.plt'
-PNG='org-task-by-day.png'
+NOW=$YEAR-$MONTH-$DAY
+FULLYEAR=0
 
-while getopts "y:m:d:" OPTION
+usage ()
+{
+cat << EOF
+Use: org-plot [options]
+
+Options:
+
+    -h show this help
+    -d set directory, default current directory
+    -y set year
+    -m set month
+    -p plt filename
+    -g png filename
+    -t dat filename
+    -Y full year graph
+EOF
+}
+
+while getopts "y:m:d:p:g:t:hY" OPTION
 do
   case $OPTION in
+    Y)
+        FULLYEAR=1
+        ;;
     y)
         YEAR=$OPTARG
         ;;
@@ -34,9 +54,6 @@ do
         MONTH=$OPTARG
         ;;
     d)
-        DAY=$OPTARG
-        ;;
-    o)
         DIR=$OPTARG
         ;;
     p)
@@ -48,14 +65,49 @@ do
     t)
         DAT=$OPTARG
         ;;
+    h)
+        usage
+        exit
+        ;;
   esac
 done
 
-cd $DIR
-echo $YEAR-$MONTH-$DAY
+if [ -d $DIR ]
+then
+  cd $DIR
+else
+  echo ERROR $DIR
+  exit 1
+fi
 
-DAYS=$(egrep -ho "CLOCK:(.*)$YEAR-$MONTH-[0-9]{2}" *.org | awk '{print $2}' | tr -d "[" | egrep -o "[0-9\-]+" | sort -u)
-FILES=$(egrep -l "CLOCK:(.*)$YEAR-$MONTH-[0-9]{2}" *.org | sort -u)
+TOTAL_ORG=$(ls -1 *.org 2>/dev/null | wc -l)
+
+if [ $TOTAL_ORG -eq 0 ]
+then
+  echo ERROR no found *.org files
+  exit 1
+fi
+
+if [ $FULLYEAR -eq 1 ]
+then
+  PATTERN=$YEAR'-[0-9]{2}-[0-9]{2}'
+else
+  PATTERN=$YEAR'-'$MONTH'-[0-9]{2}'
+fi
+
+DAYS=$(egrep -ho "CLOCK:(.*)$PATTERN" *.org | awk '{print $2}' | tr -d "[" | egrep -o "[0-9\-]+" | sort -u)
+FILES=$(egrep -l "CLOCK:(.*)$PATTERN" *.org | sort -u)
+
+TOTAL_DAYS=$(echo $DAYS | tr " " "\n" | wc -l)
+
+MIN=$(echo $DAYS | tr " " "\n" | head -1)
+MAX=$(echo $DAYS | tr " " "\n" | tail -1)
+XMIN='"'${MIN}'"'
+XMAX='"'${MAX}'"'
+
+DAT='org-task-by-day-'$MIN'-'$MAX'.dat'
+PLT='org-task-by-day-'$MIN'-'$MAX'.plt'
+PNG='org-task-by-day-'$MIN'-'$MAX'.png'
 
 echo -en 'dia\t' >$DAT
 for F in $FILES
@@ -64,25 +116,16 @@ do
 done
 echo -en '\n' >>$DAT
 
-MIN=$(echo $DAYS | tr " " "\n" | head -1)
-MAX=$(echo $DAYS | tr " " "\n" | tail -1)
-XMIN='"'${MIN}'"'
-XMAX='"'${MAX}'"'
-
-echo $MIN $XMIN
-echo $MAX $XMAX
-
 for DAY in $DAYS
-do       
- echo $DAY
- SEP=''
+do
+ SEP='\t'
  for F in $FILES
  do
    grep "CLOCK: \[$DAY" $F | tr "[]" " " | awk '{split($10,a,":"); print $2,$4,a[1]*60+a[2]}' | sort | while read T
    do
      START=$(echo $T | awk '{print $2}')
      MINUTES=$(echo $T | awk '{print $3}')
-     echo -e "${DAY}\t${SEP}\t${START}\t${MINUTES}" >>$DAT
+     echo -e "${DAY}${SEP}${START}\t${MINUTES}" >>$DAT
    done
    ZERO=0
    SEP=$(echo -en "${SEP}${ZERO}\t${ZERO}\t")
@@ -99,18 +142,34 @@ fi
 
 TOTAL=$(echo $FILES | tr " " "\n" | wc -l)
 
+if [ $TOTAL_DAYS -ge 28 ]
+then
+  LW=3
+else
+  LW=10
+fi
+
+if [ $FULLYEAR -eq 1 ]
+then
+  SIZE='1024, 768'
+else
+  SIZE='800, 600'
+fi
+
+TITLE='Orgmode Task by Day\n'$MIN' - '$MAX
+
 cat <<EOF >$PLT
 reset
-set terminal png size 1024, 768
+set terminal png size $SIZE
 set lmargin 5
 set bmargin 5
 set rmargin 16
-set title "Orgmode Task by Day" font "Inconsolata,10"
+set title " $TITLE " font "Inconsolata,10"
 set xdata time
 set ydata time
 
 set timefmt x "%Y-%m-%d"
-set format x "%Y-%m-%d"
+set format x "%m-%d"
 
 set timefmt y "%H:%M"
 set format y "%H:%M"
@@ -118,11 +177,13 @@ set yrange ["00:01":"23:59"]
 set key outside font "Inconsolata,10"
 set xtics 60*60*24 font "Inconsolata,8" nomirror rotate
 set ytics font "Inconsolata,8" nomirror
+set grid lc rgb "#d5e0c9"
+set grid ytics mytics
 set mytics
 unset mxtics
 set xrange [$XMIN:$XMAX]
 f=$TOTAL
-plot for [i=2:f:2] '$DAT' u 1:i:(0):(column(i+1)*60) with vec lw 4 nohead ti col(i)
+plot for [i=2:f:2] '$DAT' u 1:i:(0):(column(i+1)*60) with vec lw $LW nohead ti col(i)
 EOF
 
 TPLT=$(wc -l $PLT | awk '{print $1}')
