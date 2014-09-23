@@ -152,8 +152,12 @@ fi
 if [ $FULLYEAR -eq 1 ]
 then
   SIZE='1024, 768'
+  KEY='key off'
+  RMARGIN=1
 else
   SIZE='800, 600'
+  KEY='key samplen 1 spacing 1 outside font "Inconsolata,10"'
+  RMARGIN=14
 fi
 
 TITLE='Orgmode Task by Day\n'$MIN' - '$MAX
@@ -163,26 +167,27 @@ reset
 set terminal png size $SIZE
 set lmargin 5
 set bmargin 5
-set rmargin 16
+set rmargin $RMARGIN
 set title " $TITLE " font "Inconsolata,10"
 set xdata time
 set ydata time
 
 set timefmt x "%Y-%m-%d"
-set format x "%m-%d"
+set format x "%d"
 
 set timefmt y "%H:%M"
 set format y "%H:%M"
 set yrange ["00:01":"23:59"]
-set key outside font "Inconsolata,10"
+set $KEY
 set xtics 60*60*24 font "Inconsolata,8" nomirror rotate
 set ytics font "Inconsolata,8" nomirror
 set grid lc rgb "#d5e0c9"
 set grid ytics mytics
 set mytics
+
 unset mxtics
 set xrange [$XMIN:$XMAX]
-f=$TOTAL
+f=($TOTAL*2)
 plot for [i=2:f:2] '$DAT' u 1:i:(0):(column(i+1)*60) with vec lw $LW nohead ti col(i)
 EOF
 
@@ -196,5 +201,5 @@ fi
 
 gnuplot $PLT >$PNG
 
-echo $PNG
+echo $DIR/$PNG
 
