@@ -22,6 +22,7 @@ DAY=$(date +%d)
 DIR=$PWD
 NOW=$YEAR-$MONTH-$DAY
 FULLYEAR=0
+STDOUT=1
 
 usage ()
 {
@@ -34,14 +35,17 @@ Options:
     -d set directory, default current directory
     -y set year
     -m set month
+    -f from date
+    -t to date
+    -D last N days
     -p plt filename
-    -g png filename
-    -t dat filename
+    -g png filename (stdout by default)
+    -a dat filename
     -Y full year graph
 EOF
 }
 
-while getopts "y:m:d:p:g:t:hY" OPTION
+while getopts "D:Ya:d:f:g:hm:p:t:t:y:" OPTION
 do
   case $OPTION in
     Y)
@@ -53,6 +57,15 @@ do
     m)
         MONTH=$OPTARG
         ;;
+    D)
+        LAST_DAYS=$OPTARG
+        ;;
+    f)
+        FROM=$OPTARG
+        ;;
+    t)
+        TO=$OPTARG
+        ;;
     d)
         DIR=$OPTARG
         ;;
@@ -61,8 +74,9 @@ do
         ;;
     g)
         PNG=$OPTARG
+        STDOUT=0
         ;;
-    t)
+    a)
         DAT=$OPTARG
         ;;
     h)
@@ -102,8 +116,10 @@ TOTAL_DAYS=$(echo $DAYS | tr " " "\n" | wc -l)
 
 MIN=$(echo $DAYS | tr " " "\n" | head -1)
 MAX=$(echo $DAYS | tr " " "\n" | tail -1)
-XMIN='"'${MIN}'"'
-XMAX='"'${MAX}'"'
+RMIN=$(date "--date=$MIN -1 day" +%Y-%m-%d)
+RMAX=$(date "--date=$MAX +1 day" +%Y-%m-%d)
+XMIN='"'${RMIN}'"'
+XMAX='"'${RMAX}'"'
 
 DAT='org-task-by-day-'$MIN'-'$MAX'.dat'
 PLT='org-task-by-day-'$MIN'-'$MAX'.plt'
@@ -142,12 +158,17 @@ fi
 
 TOTAL=$(echo $FILES | tr " " "\n" | wc -l)
 
-if [ $TOTAL_DAYS -ge 28 ]
-then
-  LW=3
-else
-  LW=10
-fi
+LW=1
+
+if [ $TOTAL_DAYS -ge  1 ];then LW=20;fi
+if [ $TOTAL_DAYS -ge 15 ];then LW=20;fi
+if [ $TOTAL_DAYS -ge 30 ];then LW=10;fi
+if [ $TOTAL_DAYS -ge 40 ];then LW=10;fi
+if [ $TOTAL_DAYS -ge 45 ];then LW=10;fi
+if [ $TOTAL_DAYS -ge 60 ];then LW=10;fi
+if [ $TOTAL_DAYS -ge 90 ];then LW=10;fi
+if [ $TOTAL_DAYS -ge 180 ];then LW=5;fi
+if [ $TOTAL_DAYS -ge 360 ];then LW=3;fi
 
 if [ $FULLYEAR -eq 1 ]
 then
@@ -176,7 +197,7 @@ set timefmt x "%Y-%m-%d"
 set format x "%d"
 
 set timefmt y "%H:%M"
-set format y "%H:%M"
+set format y "%H"
 set yrange ["00:01":"23:59"]
 set $KEY
 set xtics 60*60*24 font "Inconsolata,8" nomirror rotate
@@ -199,7 +220,12 @@ then
   exit 1
 fi
 
-gnuplot $PLT >$PNG
+if [ $STDOUT -eq 1 ]
+then
+  gnuplot $PLT
+else
+  gnuplot $PLT >$PNG
+fi
 
 echo $DIR/$PNG
 

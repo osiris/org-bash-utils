@@ -81,8 +81,10 @@
     - [X] set default value for =$ORG_FILES= variable, setting files
       with current =$YEAR-$MONTH= scheduled date.
 
-*** NEXT repair =org-plot= [12/18] [66%]
+*** NEXT repair =org-plot= [16/22] [72%]
     :LOGBOOK:
+    CLOCK: [2014-10-02 jue 10:40]--[2014-10-02 jue 10:43] =>  0:03
+    CLOCK: [2014-10-01 mié 18:38]--[2014-10-01 mié 19:25] =>  0:47
     CLOCK: [2014-09-23 mar 10:03]--[2014-09-23 mar 10:43] =>  0:40
     CLOCK: [2014-09-22 lun 09:20]--[2014-09-22 lun 10:20] =>  1:00
     CLOCK: [2014-09-12 vie 15:29]--[2014-09-12 vie 17:59] =>  2:30
@@ -108,6 +110,10 @@
     - [X] fix plot all columns
     - [X] set parameter by graph type
     - [ ] add examples
+    - [X] add default stdout png
+    - [X] dynamic lw
+    - [X] add 1 day before and 1 day after
+    - [X] change format y
 
 ** Features [2/6]
 *** NEXT don't show empty hours columns
@@ -147,7 +153,7 @@
     - State "DONE"       from ""           [2014-09-12 vie 17:56]
     CLOCK: [2014-09-12 vie 15:25]--[2014-09-12 vie 15:29] =>  0:04
     :END:
-
+    
 ** README
 *** DONE add example of =org-clock= for second parameter
     CLOSED: [2014-03-18 mar 09:06]
