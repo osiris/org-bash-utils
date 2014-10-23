@@ -194,7 +194,7 @@ set xdata time
 set ydata time
 
 set timefmt x "%Y-%m-%d"
-set format x "%d"
+set format x "%a %d"
 
 set timefmt y "%H:%M"
 set format y "%H"
