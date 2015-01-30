@@ -19,20 +19,17 @@
 BEGIN {
   A=0
   T=0
-  if (length(v) == 0) 
-  {
-    v=1
-  }
-  if (length(s) == 0) 
-  {
-    s=v+1
-  }
 }
 
 {
-  T+=$v
-  V[NR]=$v
-  S[NR]=$s
+  T+=$1
+  V[NR]=$1
+  l=length($1)+1
+  t=$0
+  gsub(/^ */, "", t)
+  s=substr(t,l)
+  gsub(/^ */, "", s)
+  S[NR]=s
 }
 
 END {
@@ -40,8 +37,8 @@ END {
   {
     P=V[i]/T*100
     A+=P
-    R=int(int(P+0.5)/2)
-    printf "%6.2f %s %6.2f %s %9d ", A, "%", P, "%", V[i]
+    R=int(int(P+0.5)/4)
+    printf "%6.2f %s %6.2f %s %10d ", A, "%", P, "%", V[i]
     BAR=sprintf("%*s", R, "")
     gsub(/ /, "█", BAR)
 
@@ -50,7 +47,7 @@ END {
       BAR="▌"
     }
 
-    printf "%s %s \n", BAR, S[i]
+    printf "%-20s %s \n", BAR, S[i]
   }
-  printf "%17s %9d", " ", T
+  printf "%17s %10d", " ", T
 }
