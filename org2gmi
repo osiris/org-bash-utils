@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2021 Osiris Alejandro Gomez <osiux@osiux.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+[[ -z "$1" ]] && exit 1
+[[ -e "$1" ]] || exit 1
+
+ORG="$1"
+MD="$(basename "$ORG" .org).md"
+TMP="$(basename "$ORG" .org).tmp"
+HDR="$(basename "$ORG" .org).hdr"
+LINKS='-l at-end'
+
+true > "$TMP"
+
+[[ "$ORG" = 'index.org' ]] && LINKS=''
+[[ "$ORG" = 'links.org' ]] && LINKS=''
+
+if [[ -e "$HDR" ]]
+then
+  echo "#+BEGIN_EXAMPLE"           >> "$TMP"
+  cat  "$HDR"                      >> "$TMP"
+  echo "#+END_EXAMPLE"             >> "$TMP"
+  echo ""                          >> "$TMP"
+  echo "[[file:index.gmi][index]]" >> "$TMP"
+  echo "[[file:osiux.gmi][osiux]]" >> "$TMP"
+  echo "[[file:links.gmi][links]]" >> "$TMP"
+  echo "[[file:tty.gmi][tty]]"     >> "$TMP"
+  echo ""                          >> "$TMP"
+fi
+
+cat "$ORG"                                \
+  | grep -v '{{{modification-time'        \
+  | grep -v '^#+LANGUAGE:'                \
+  | grep -v '^#+INCLUDE:'                 \
+  | grep -v '^#+LINK_HOME:'               \
+  | sed 's/\.org/.gmi/g'                  \
+  | sed 's/^#+TITLE:\s\+/* /g'            \
+  | sed "s/^#+AUTHOR:\s/\n\n- AUTHOR: /g" \
+  | sed "s/^#+EMAIL:\s/- EMAIL: /g"       \
+  | sed "s/^#+DATE:\s/- DATE: /g"         >> "$TMP"
+
+pandoc -f org -t markdown -o "$MD" "$TMP" \
+  && md2gemini -w -m $LINKS  "$MD"        && rm -f "$TMP"
