@@ -30,61 +30,64 @@ Options:
 EOF
 }
 
-DIR=$PWD
+DIR="$PWD"
 FILE='*.org'
 
 while getopts "hd:f:" OPTION
 do
-  case $OPTION in
+  case "$OPTION" in
     h)
       usage
       exit 1
       ;;
     d)
-      DIR=$OPTARG
+      DIR="$OPTARG"
       ;;
     f)
-      FILE=$OPTARG
+      FILE="$OPTARG"
+      ;;
+    *)
+      usage
+      exit 1
       ;;
   esac
 done
 
-if [ ! -d $DIR ]
+if [[ ! -d "$DIR" ]]
 then
-  echo $DIR NOT EXISTS
+  echo "$DIR NOT EXISTS"
   exit 1
 fi
 
-if [ "$FILE" != "*.org" ]
+if [[ "$FILE" != "*.org" ]]
 then
-  if [ ! -e $DIR/$FILE ]
+  if [[ ! -e "$DIR/$FILE" ]]
   then
-    echo $FILE NOT EXISTS
+    echo "$FILE NOT EXISTS"
     exit 1
   fi
 fi
 
-cd $DIR
+cd "$DIR" || exit 1
 
-for i in $(echo $FILE)
+for i in $FILE
 do
-    egrep -h "^\*(.*)TODO " $i | \
+    grep -E -h "^\*(.*)TODO " "$i" | \
     sed s/"\[\["//g | sed s/"\]\]"//g | \
     sed -e s/[a-z:@]*:$//g | \
     sed s/[*]*\ TODO\ //g | \
-    while read j
+    while read -r j
     do
-        echo "  - [ ] "$j
-    done | sort >/tmp/next.$i.tmp
+        echo "  - [ ] $j"
+    done | sort > "/tmp/next.$i.tmp"
     
-    l=$(wc -l /tmp/next.$i.tmp | awk '{print $1}')
+    l="$(wc -l "/tmp/next.$i.tmp" | awk '{print $1}')"
 
-    if [ $l -ne 0 ]
+    if [[ "$l" -ne 0 ]]
     then
         echo "* $i [0/$l]" 
-        cat /tmp/next.$i.tmp
+        cat "/tmp/next.$i.tmp"
     fi
 done
 
 rm -f /tmp/next.*.tmp
-
