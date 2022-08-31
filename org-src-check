@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2020 Osiris Alejandro Gomez <osiris@gcoop.coop>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# shellcheck disable=SC1090
+# shellcheck disable=SC2035
+
+BIN="$(basename "$0")"
+
+function usage()
+{
+cat << EOF
+Usage:
+
+\`\`\`bash
+
+  $BIN
+
+\`\`\`
+
+Check syntax using shellcheck. Group errors by code in result.
+
+Example:
+
+\`\`\`bash
+
+  $BIN
+
+  agenda-ascii     SC2001 SC2002 SC2035 SC2086 SC2116 SC2164 SC2210
+  done             SC2086 SC2116 SC2162 SC2164 SC2196 SC2220
+  next             SC2086 SC2116 SC2162 SC2164 SC2196 SC2220
+  org2gmi          SC2002 SC2086 SC2129
+  org-clock        SC1091 SC2016 SC2035 SC2086 SC2164
+  org-count        SC1091 SC2035 SC2086 SC2164
+  org-hs-day       SC1001 SC2035 SC2066 SC2086 SC2164 SC2196
+  org-hs-month     SC1001 SC2086 SC2164 SC2196
+  org-hs-year      SC1001 SC2086 SC2164 SC2196
+  org-log          SC2035 SC2086 SC2164 SC2196
+  org-plot         SC2012 SC2034 SC2035 SC2046 SC2086 SC2162 SC2164
+  org-scheduled    SC2086 SC2164 SC2214 SC2220
+  org-status       SC1091 SC2016 SC2086 SC2125 SC2164
+  org-task-by-day  SC2034 SC2035 SC2046 SC2086 SC2162 SC2164 SC2196
+  org-task-day     SC2086 SC2164 SC2196
+  org-year         SC1091 SC2016 SC2035 SC2086 SC2164
+  someday          SC2086 SC2116 SC2162 SC2164 SC2196 SC2220
+  org-shell-check  SC2034
+  org-team-create  SC2034 SC2236
+
+\`\`\`
+
+EOF
+exit 0
+}
+
+[[ "$1" =~ ^[-]+(h|help) ]] && usage
+
+TMP="$(mktemp)"
+FILES="$(mktemp)"
+ERRORS=0
+
+file --mime-type * | grep shellscript | tr -d ':' > "$FILES"
+
+while read -r FILE _
+do
+
+if ! shellcheck "$FILE" > "$TMP"
+then
+
+  SC="$(grep -Eo 'SC[0-9]+' "$TMP" | sort -u | tr '\n' ' ')"
+  printf "%-45s %s\n" "$FILE" "$SC"
+  ERRORS="$((ERRORS+1))"
+
+fi
+
+done < "$FILES"
+
+rm -f "$TMP"
+rm -f "$FILES"
+
+exit "$ERRORS"
