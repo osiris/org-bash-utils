@@ -3,7 +3,6 @@
 #+EMAIL:     osiux@osiux.com
 #+LANGUAGE:  es
 #+LINK_HOME: index.html
-#+LINK:      ISSUE https://github.com/osiris/org-bash-utils/issues/
 #+INCLUDE: "obu.org"
 
 
@@ -17,7 +16,7 @@
 
    #+BEGIN_SRC sh :session :results none :exports code
      cd ~
-     git clone https://github.com/osiris/org-bash-utils
+     git clone https://gitlab.com/osiux/org-bash-utils
    #+END_SRC
 
    Add to =~/.bashrc=:
@@ -335,4 +334,12 @@
       ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      ┊      TOTAL ===============>  432
     #+end_example
 
+** License
 
+/GNU General Public License, GPLv3./
+
+** Author Information
+
+This repo was created in 2013 by
+ [[http://osiux.com/][Osiris Alejandro Gomez]], worker cooperative of
+ [[https://www.gcoop.coop/][gcoop Cooperativa de Software Libre]]
