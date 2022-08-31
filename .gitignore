@@ -1,3 +1,4 @@
-*.png
-*.plt
+*.bak
 *.dat
+*.plt
+*.png
