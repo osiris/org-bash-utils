@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2021 Osiris Alejandro Gomez <osiux@osiux.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+[[ -z "$1" ]] && exit 1
+[[ -e "$1" ]] || exit 1
+
+function cleanup()
+{
+  rm -f "$TMP1"
+  rm -f "$TMP2"
+}
+
+trap cleanup EXIT
+
+ORG="$1"
+REGEX1='\[fn:[a-z0-9\-]+\]'
+TMP1="$(mktemp)"
+TMP2="$(mktemp)"
+
+grep -Eo "$REGEX1" "$ORG" | awk '!seen[$0]++' > "$TMP1"
+
+while read -r fn
+do
+
+  FN="$(echo "$fn" | sed 's/\[/\\\[/g' | sed 's/\]/\\\]/g')"
+  grep -Eoh "$FN.*(ftp|http).*$" ./*.org | sed 's/ \+/ /g' | sort -u
+
+done < "$TMP1"
