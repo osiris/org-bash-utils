@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2021 Osiris Alejandro Gomez <osiux@osiux.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+[[ -z "$1" ]] && exit 1
+[[ -e "$1" ]] || exit 1
+
+function cleanup()
+{
+  rm -f "$TMP1"
+  rm -f "$TMP2"
+}
+
+trap cleanup EXIT
+
+ORG="$1"
+REGEX1='\[fn:[a-z0-9\-]+\]'
+REGEX2='\[fn:.*file:.*org$'
+REGEX3='\[fn:.*(ht|f)tp(s)://'
+TMP1="$(mktemp)"
+TMP2="$(mktemp)"
+
+grep -Eo "$REGEX1" "$ORG" \
+  | sort                  \
+  | uniq -c               \
+  | sort -nr              \
+  | grep -E '^ +[135] '   > "$TMP1"
+
+if [[ -s "$TMP1" ]]
+then
+  echo >&2 "ERROR UNBALANCED FOOTNOTE"
+  cat "$TMP1"
+  exit 2
+fi
+
+grep -E "$REGEX2" "$ORG" \
+  | cut -d: -f3-         > "$TMP1"
+
+true > "$TMP2"
+
+while read -r F
+do
+
+  [[ -e "$F" ]] || echo "$F" >> "$TMP2"
+
+done < "$TMP1"
+
+if [[ -s "$TMP2" ]]
+then
+  echo >&2 "ERROR FOOTNOTE FILE LINK NOT FOUND"
+  cat "$TMP2"
+  exit 3
+fi
+
+true > "$TMP1"
+true > "$TMP2"
+
+grep -E "$REGEX3" "$ORG" | while read -r _ URL
+do
+
+  CODE="$(curl -s -o /dev/null -w "%{http_code}" "$URL")"
+
+  [[ "$CODE" = '000' ]] && echo "$CODE $URL" >> "$TMP2"
+  [[ "$CODE" = '404' ]] && echo "$CODE $URL" >> "$TMP2"
+
+done
+
+if [[ -s "$TMP2" ]]
+then
+  echo >&2 "ERROR FOOTNOTE URL LINK NOT FOUND"
+  cat "$TMP2"
+  exit 4
+fi
