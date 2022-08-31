@@ -6,7 +6,6 @@ alias h50='head -50'
 alias h100='head -100'
 
 alias cdo='cd ~/org'
-alias cdu='cd ~/org-bash-utils'
 
 alias 1d='echo $(date --date="yesterday" +%Y-%m-%d)'
 alias 2d='echo $(date --date="-1 day" +%Y-%m-%d)'
