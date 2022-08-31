@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# This script comes with ABSOLUTELY NO WARRANTY, use at own risk
+# Copyright (C) 2018 Osiris Alejandro Gomez <osiris@gcoop.coop>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+[[ -z "$1" ]] && exit 1
+[[ -e "$1" ]] || exit 1
+
+ORG="$1"
+NAME="$(basename "$ORG" .org)"
+MD="${NAME}.md"
+BAK="${NAME}.bak"
+ORG="${NAME}.org"
+
+[[ -z "$2"  ]] || MD="$2"
+[[ -e "$MD" ]] && mv -f "$MD" "$BAK"
+
+TITLE="$(org-title "$ORG")"
+DATE="$(org-date "$ORG")"
+AUTHOR="$(org-author "$ORG")"
+EMAIL="$(org-email "$ORG")"
+
+H='---'
+
+printf "%s\ntitle: %s\ndate: %s\nauthor: %s %s\n%s\n\n" \
+       "$H" "$TITLE" "$DATE" "$AUTHOR" "$EMAIL" "$H"    > "$MD"
+
+pandoc -f org -t markdown "$ORG" --atx-headers >> "$MD" && echo "$MD"
