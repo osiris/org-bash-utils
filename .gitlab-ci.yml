@@ -1,0 +1,16 @@
+---
+# -*- coding: utf-8 -*-
+
+image: koalaman/shellcheck-alpine:stable
+
+before_script:
+  - shellcheck --version
+  - apk update && apk add file grep
+
+stages:
+  - shellcheck
+
+shellcheck:
+  stage: shellcheck
+  script:
+    - file --mime-type * | grep shellscript | tr -d ':' | while read F _;do shellcheck $F;done
