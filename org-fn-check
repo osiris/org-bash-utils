@@ -28,7 +28,7 @@ function cleanup()
 trap cleanup EXIT
 
 ORG="$1"
-REGEX1='\[fn:[a-z0-9\-]+\]'
+REGEX1='\[fn:[a-zA-Z0-9\-]+\]'
 REGEX2='\[fn:.*file:.*org$'
 REGEX3='\[fn:.*(ht|f)tp(s)://'
 TMP1="$(mktemp)"
