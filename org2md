@@ -38,4 +38,5 @@ H='---'
 printf "%s\ntitle: %s\ndate: %s\nauthor: %s %s\n%s\n\n" \
        "$H" "$TITLE" "$DATE" "$AUTHOR" "$EMAIL" "$H"    > "$MD"
 
-pandoc -f org -t markdown "$ORG" --atx-headers >> "$MD" && echo "$MD"
+TO='markdown-simple_tables-grid_tables'
+pandoc -f org -t "$TO" "$ORG" --atx-headers >> "$MD" && echo "$MD"
