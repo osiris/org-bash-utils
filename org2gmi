@@ -18,8 +18,9 @@
 
 # shellcheck disable=SC2129
 
-[[ -z "$1" ]] && exit 1
-[[ -e "$1" ]] || exit 1
+[[ -n "$BASH_DEBUG" ]] && set -x
+[[ -z "$1"          ]] && exit 1
+[[ -e "$1"          ]] || exit 1
 
 ORG="$1"
 MD="/tmp/$(basename "$ORG" .org).md"
