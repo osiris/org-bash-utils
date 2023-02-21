@@ -16,12 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+# shellcheck disable=SC2129
+
 [[ -z "$1" ]] && exit 1
 [[ -e "$1" ]] || exit 1
 
 ORG="$1"
-MD="$(basename "$ORG" .org).md"
-TMP="$(basename "$ORG" .org).tmp"
+MD="/tmp/$(basename "$ORG" .org).md"
+TMP="/tmp/$(basename "$ORG" .org).tmp"
 HDR="$(basename "$ORG" .org).hdr"
 LINKS='-l at-end'
 
@@ -43,8 +45,7 @@ then
   echo ""                          >> "$TMP"
 fi
 
-cat "$ORG"                                \
-  | grep -v '{{{modification-time'        \
+grep -v '{{{modification-time' "$ORG"     \
   | grep -v '^#+LANGUAGE:'                \
   | grep -v '^#+INCLUDE:'                 \
   | grep -v '^#+LINK_HOME:'               \
@@ -54,5 +55,6 @@ cat "$ORG"                                \
   | sed "s/^#+EMAIL:\s/- EMAIL: /g"       \
   | sed "s/^#+DATE:\s/- DATE: /g"         >> "$TMP"
 
-pandoc -f org -t markdown --atx-headers --columns 72 -o "$MD" "$TMP" \
-  && md2gemini -w -m $LINKS  "$MD"        && rm -f "$TMP"
+TO='markdown-simple_tables-grid_tables'
+pandoc -f org -t "$TO" --atx-headers --columns 72 -o "$MD" "$TMP" \
+  && md2gemini -w -m "$LINKS" "$MD" && rm -f "$TMP"
