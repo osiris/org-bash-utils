@@ -56,5 +56,6 @@ grep -v '{{{modification-time' "$ORG"     \
   | sed "s/^#+DATE:\s/- DATE: /g"         >> "$TMP"
 
 TO='markdown-simple_tables-grid_tables'
-pandoc -f org -t "$TO" --atx-headers --columns 72 -o "$MD" "$TMP" \
+pandoc -f org -t "$TO" --markdown-headings=atx \
+  --columns 72 -o "$MD" "$TMP" \
   && md2gemini -w -m "$LINKS" "$MD" && rm -f "$TMP"
