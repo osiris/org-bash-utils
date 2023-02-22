@@ -56,7 +56,7 @@ grep -v '{{{modification-time' "$ORG"     \
   | sed "s/^#+EMAIL:\s/- EMAIL: /g"       \
   | sed "s/^#+DATE:\s/- DATE: /g"         >> "$TMP"
 
-PD_VERSION="$(pandoc -v | head | grep -Eo '[0-9\.]+')"
+PD_VERSION="$(pandoc -v | head -1 | grep -Eo '[0-9\.]+')"
 PD_ATX='--atx-headers'
 [[ "$PD_VERSION" = 2.19.2 ]] && PD_ATX='--markdown-headings=atx'
 
