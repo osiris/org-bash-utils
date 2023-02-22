@@ -17,6 +17,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 # shellcheck disable=SC2129
+# shellcheck disable=SC2086
 
 [[ -n "$BASH_DEBUG" ]] && set -x
 [[ -z "$1"          ]] && exit 1
@@ -63,4 +64,4 @@ PD_ATX='--atx-headers'
 TO='markdown-simple_tables-grid_tables'
 pandoc -f org -t "$TO" "$PD_ATX" \
   --columns 72 -o "$MD" "$TMP"   \
-  && md2gemini -w -m "$LINKS" "$MD" && rm -f "$TMP"
+  && md2gemini -w -m $LINKS "$MD" && rm -f "$TMP"
