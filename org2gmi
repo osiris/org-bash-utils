@@ -64,4 +64,5 @@ PD_ATX='--atx-headers'
 TO='markdown-simple_tables-grid_tables'
 pandoc -f org -t "$TO" "$PD_ATX" \
   --columns 72 -o "$MD" "$TMP"   \
+  && sed -i 's/{.verbatim}//g' "$MD" \
   && md2gemini -w -m $LINKS "$MD" && rm -f "$TMP"
