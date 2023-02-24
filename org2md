@@ -44,4 +44,5 @@ PD_ATX='--atx-headers'
 
 TO='markdown-simple_tables-grid_tables'
 pandoc -f org -t "$TO" "$PD_ATX" \
-  --columns 72 "$ORG" >> "$MD" && echo "$MD"
+  --columns 72 "$ORG" >> "$MD" \
+  && sed -i 's/{.verbatim}//g' "$MD" && echo "$MD"
