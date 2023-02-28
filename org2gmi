@@ -51,6 +51,9 @@ grep -v '{{{modification-time' "$ORG"     \
   | grep -v '^#+LANGUAGE:'                \
   | grep -v '^#+INCLUDE:'                 \
   | grep -v '^#+LINK_HOME:'               \
+  | grep -v '^#+DESCRIPTION:'             \
+  | grep -v '^#+HTML_HEAD:'               \
+  | grep -v '^#+KEYWORDS:'                \
   | sed 's/\.org/.gmi/g'                  \
   | sed 's/^#+TITLE:\s\+/* /g'            \
   | sed "s/^#+AUTHOR:\s/\n\n- AUTHOR: /g" \
