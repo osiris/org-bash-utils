@@ -38,7 +38,7 @@ H='---'
 printf "%s\ntitle: %s\ndate: %s\nauthor: %s %s\n%s\n\n" \
        "$H" "$TITLE" "$DATE" "$AUTHOR" "$EMAIL" "$H"    > "$MD"
 
-PD_VERSION="$(pandoc -v | head | grep -Eo '[0-9\.]+')"
+PD_VERSION="$(pandoc -v | head -1 | grep -Eo '[0-9\.]+')"
 PD_ATX='--atx-headers'
 [[ "$PD_VERSION" = 2.19.2 ]] && PD_ATX='--markdown-headings=atx'
 
