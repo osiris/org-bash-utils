@@ -56,7 +56,8 @@ IMG="$(grep -E "$REGEX_IMG" "$FILE" \
   | cut -d: -f2                     \
   | cut -d ']' -f1)"
 
+DIR="$(dirname "$FILE")"
 OG="$(get_og_image)"
-[[ -e "$OG" ]] && IMG="$OG"
+[[ -f "$DIR/$OG" ]] && IMG="$OG"
 
 echo "$IMG"
